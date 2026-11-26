@@ -19,7 +19,7 @@ jobs:
         node-version: '20'
         
     - name: Instalar dependencias y validar
-      working-directory: ./agropeso/agropeso 
+      working-directory: ./agropeso/agropeso
       run: |
         npm install
         node --check server.js
