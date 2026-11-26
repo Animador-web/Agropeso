@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AGROPESO - Prototipo Interactivo y Wireframes (Actividad 8.1)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .wireframe-box {
+            border: 2px dashed #64748b;
+            background-color: #f8fafc;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        .wireframe-input {
+            border: 1.5px solid #475569;
+            background: #ffffff;
+            padding: 4px 8px;
+        }
+        .wireframe-btn {
+            border: 2px solid #1e293b;
+            background: #e2e8f0;
+            font-weight: bold;
+            padding: 6px 14px;
+            cursor: pointer;
+        }
+        .wireframe-btn:hover { background: #cbd5e1; }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col">
+
+    <!-- Top Navigation Bar -->
+    <header class="bg-emerald-900 text-white shadow-md">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex flex-wrap items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <div class="bg-emerald-600 p-2 rounded-lg font-extrabold text-xl tracking-wider">AP</div>
+                <div>
+                    <h1 class="text-xl font-bold leading-tight">AGROPESO — Prototipo y Diseño UI/UX</h1>
+                    <p class="text-xs text-emerald-200">Actividad 8.1 | Ingeniería de Software • TecNM Campus Delicias</p>
+                </div>
+            </div>
+            <nav class="flex flex-wrap gap-2">
+                <button onclick="showSection('mockup')" id="btn-mockup" class="nav-btn bg-emerald-600 text-white px-4 py-2 rounded-lg text-sm font-semibold shadow transition">
+                    1. Mockup Alta Fidelidad (Pesaje)
+                </button>
+                <button onclick="showSection('wireframes')" id="btn-wireframes" class="nav-btn bg-emerald-800 hover:bg-emerald-700 text-emerald-100 px-4 py-2 rounded-lg text-sm font-semibold transition">
+                    2. Wireframes (3 Pantallas)
+                </button>
+                <button onclick="showSection('heuristicas')" id="btn-heuristicas" class="nav-btn bg-emerald-800 hover:bg-emerald-700 text-emerald-100 px-4 py-2 rounded-lg text-sm font-semibold transition">
+                    3. Heurísticas de Nielsen
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-7xl mx-auto px-4 py-8 flex-grow w-full">
+
+        <!-- SECTION 1: HIGH FIDELITY MOCKUP -->
+        <section id="sec-mockup" class="space-y-6">
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+                <div class="flex flex-wrap justify-between items-center border-b border-slate-200 pb-4 mb-6 gap-4">
+                    <div>
+                        <span class="inline-block bg-emerald-100 text-emerald-800 text-xs font-bold px-2.5 py-1 rounded-full uppercase tracking-wide mb-1">Mockup de Alta Fidelidad Interactivo</span>
+                        <h2 class="text-2xl font-bold text-slate-900">Módulo de Registro de Pesaje en Báscula</h2>
+                        <p class="text-sm text-slate-500">Operador activo: <strong>Juan Pérez (ID: 01)</strong> • Turno Matutino • Báscula Digital #02</p>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <span id="sync-badge" class="flex items-center gap-1.5 bg-amber-100 text-amber-800 text-xs font-semibold px-3 py-1.5 rounded-full border border-amber-300">
+                            <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
+                            Modo Offline: Pendiente de Sincronizar (2)
+                        </span>
+                        <button onclick="sincronizarAhora()" class="bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold px-3 py-1.5 rounded-lg transition">
+                            Sincronizar Ahora
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Interactive Scale Interface -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Left & Center Form -->
+                    <div class="lg:col-span-2 space-y-5">
+                        <!-- Step 1: Jornalero -->
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                            <label class="block text-xs font-bold uppercase text-slate-500 mb-2">1. Identificación del Jornalero</label>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 mb-1">Seleccionar Jornalero</label>
+                                    <select id="select-jornalero" onchange="actualizarJornalero()" class="w-full rounded-lg border-slate-300 border p-2.5 bg-white font-medium text-slate-800 focus:ring-2 focus:ring-emerald-500">
+                                        <option value="Pedro Pérez|Cuadrilla A|Activo|1420.50">1042 - Pedro Pérez (Cuadrilla A)</option>
+                                        <option value="María Gómez|Cuadrilla B|Activo|1680.00">1043 - María Gómez (Cuadrilla B)</option>
+                                        <option value="Luis Ramírez|Cuadrilla A|Bloqueado|410.00">1044 - Luis Ramírez (Cuadrilla A - Bloqueado)</option>
+                                    </select>
+                                </div>
+                                <div class="bg-white p-3 rounded-lg border border-slate-200 flex flex-col justify-center">
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-xs text-slate-500">Cuadrilla: <strong id="info-cuadrilla" class="text-slate-800">Cuadrilla A</strong></span>
+                                        <span id="info-estatus" class="text-xs font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-700">Activo</span>
+                                    </div>
+                                    <p class="text-xs text-slate-500 mt-1">Productividad acumulada: <strong id="info-ranking" class="text-slate-800">1,420.50 kg</strong></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 2: Producto y Calidad -->
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                            <label class="block text-xs font-bold uppercase text-slate-500 mb-2">2. Clasificación del Producto (Tarifa Vigente)</label>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 mb-1">Tipo de Chile</label>
+                                    <select id="tipo-chile" onchange="calcularPesaje()" class="w-full rounded-lg border-slate-300 border p-2.5 bg-white font-medium">
+                                        <option value="Verde">Chile Verde (Jalapeño / Serrano)</option>
+                                        <option value="Seco">Chile Seco (Color / Mirasol)</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 mb-1">Calidad</label>
+                                    <select id="calidad-chile" onchange="calcularPesaje()" class="w-full rounded-lg border-slate-300 border p-2.5 bg-white font-medium">
+                                        <option value="Primera">Primera Calidad</option>
+                                        <option value="Segunda">Segunda Calidad</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 3: Captura de Báscula -->
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                            <label class="block text-xs font-bold uppercase text-slate-500 mb-2">3. Lectura de Báscula y Tara</label>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 mb-1">Peso Bruto (kg)</label>
+                                    <input type="number" id="peso-bruto" value="125.50" step="0.10" min="0" oninput="calcularPesaje()" class="w-full rounded-lg border-slate-300 border p-2.5 text-2xl font-extrabold text-slate-900 bg-white focus:ring-2 focus:ring-emerald-500">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 mb-1">Número de Arpillas (0.50 kg c/u)</label>
+                                    <input type="number" id="num-arpillas" value="5" min="0" max="100" oninput="calcularPesaje()" class="w-full rounded-lg border-slate-300 border p-2.5 text-2xl font-extrabold text-slate-900 bg-white focus:ring-2 focus:ring-emerald-500">
+                                </div>
+                            </div>
+                            <p id="error-alerta" class="hidden mt-3 text-sm font-semibold text-red-600 bg-red-50 border border-red-200 p-2.5 rounded-lg">
+                                Error: El peso neto no puede ser menor o igual a cero, ni el jornalero puede estar bloqueado.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Right Real-time Summary Card -->
+                    <div class="bg-slate-900 text-white rounded-xl p-6 flex flex-col justify-between shadow-lg">
+                        <div>
+                            <h3 class="text-sm font-bold uppercase tracking-wider text-emerald-400 border-b border-slate-700 pb-3">Resumen en Tiempo Real</h3>
+                            <div class="mt-4 space-y-3 text-sm">
+                                <div class="flex justify-between">
+                                    <span class="text-slate-400">Peso Bruto Capturado:</span>
+                                    <span id="res-bruto" class="font-semibold">125.50 kg</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-slate-400">Tara Calculada (<span id="res-arpillas">5</span> arpillas):</span>
+                                    <span id="res-tara" class="font-semibold text-amber-400">- 2.50 kg</span>
+                                </div>
+                                <div class="border-t border-slate-700 pt-3 flex justify-between items-baseline">
+                                    <span class="text-slate-300 font-medium">PESO NETO REAL:</span>
+                                    <span id="res-neto" class="text-3xl font-extrabold text-white">123.00 kg</span>
+                                </div>
+                                <div class="flex justify-between pt-2">
+                                    <span class="text-slate-400">Precio Vigente / kg:</span>
+                                    <span id="res-precio" class="font-semibold text-emerald-300">$ 18.50 MXN</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-6 pt-4 border-t border-slate-700">
+                            <div class="bg-slate-800 p-4 rounded-lg mb-4">
+                                <span class="block text-xs text-slate-400 uppercase">Total Liquidación Estimada</span>
+                                <span id="res-total" class="text-3xl font-extrabold text-emerald-400">$ 2,275.50</span>
+                            </div>
+                            <div class="grid grid-cols-2 gap-3">
+                                <button onclick="limpiarFormulario()" class="bg-slate-700 hover:bg-slate-600 text-white font-semibold py-3 rounded-lg text-sm transition">
+                                    Cancelar
+                                </button>
+                                <button id="btn-registrar" onclick="registrarPesaje()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 rounded-lg text-sm shadow transition">
+                                    Registrar Pesaje
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Logs Table -->
+                <div class="mt-8">
+                    <h3 class="text-sm font-bold uppercase text-slate-600 mb-3">Últimos Pesajes Registrados en Jornada</h3>
+                    <div class="overflow-x-auto border border-slate-200 rounded-lg">
+                        <table class="w-full text-left text-sm">
+                            <thead class="bg-slate-100 text-slate-700 font-semibold border-b border-slate-200">
+                                <tr>
+                                    <th class="p-3">ID</th>
+                                    <th class="p-3">Jornalero</th>
+                                    <th class="p-3">Producto / Calidad</th>
+                                    <th class="p-3">Bruto</th>
+                                    <th class="p-3">Tara</th>
+                                    <th class="p-3">Peso Neto</th>
+                                    <th class="p-3">Importe</th>
+                                    <th class="p-3">Sincronización</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabla-pesajes" class="divide-y divide-slate-200 bg-white">
+                                <tr>
+                                    <td class="p-3 font-mono text-xs">#098</td>
+                                    <td class="p-3 font-medium">Pedro Pérez</td>
+                                    <td class="p-3">Verde - Primera</td>
+                                    <td class="p-3">85.00 kg</td>
+                                    <td class="p-3">2.00 kg</td>
+                                    <td class="p-3 font-bold">83.00 kg</td>
+                                    <td class="p-3 font-semibold text-emerald-700">$ 1,535.50</td>
+                                    <td class="p-3"><span class="bg-emerald-100 text-emerald-800 text-xs px-2 py-0.5 rounded font-medium">Sincronizado</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: WIREFRAMES (3 PANTALLAS) -->
+        <section id="sec-wireframes" class="hidden space-y-6">
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+                <div class="mb-6">
+                    <span class="inline-block bg-slate-200 text-slate-800 text-xs font-bold px-2.5 py-1 rounded-full uppercase mb-1">Baja Fidelidad / Estructura</span>
+                    <h2 class="text-2xl font-bold text-slate-900">Wireframes de las 3 Pantallas Principales (Casos de Uso Semana 3)</h2>
+                    <p class="text-sm text-slate-500">Selecciona una pantalla para inspeccionar su estructura esquemática y flujo de navegación.</p>
+                </div>
+
+                <!-- Wireframe Switcher -->
+                <div class="flex flex-wrap gap-3 mb-6">
+                    <button onclick="showWireframe(1)" id="wf-tab-1" class="wf-tab bg-slate-800 text-white px-4 py-2 rounded-lg text-sm font-semibold">Pantalla 1: Registro de Pesaje</button>
+                    <button onclick="showWireframe(2)" id="wf-tab-2" class="wf-tab bg-slate-200 text-slate-700 px-4 py-2 rounded-lg text-sm font-semibold">Pantalla 2: Gestión de Jornaleros</button>
+                    <button onclick="showWireframe(3)" id="wf-tab-3" class="wf-tab bg-slate-200 text-slate-700 px-4 py-2 rounded-lg text-sm font-semibold">Pantalla 3: Préstamos y Vales</button>
+                </div>
+
+                <!-- Wireframe 1 -->
+                <div id="wf-1" class="wireframe-box p-6 rounded-lg space-y-4">
+                    <div class="flex justify-between items-center border-b-2 border-slate-400 pb-3">
+                        <span class="font-bold text-lg">[LOGO] AGROPESO - SISTEMA DE BÁSCULA</span>
+                        <span>[Operador: JuanP] | [Cerrar Sesión X]</span>
+                    </div>
+                    <div class="text-xs text-slate-600">Ruta: Inicio &gt; Operaciones &gt; <strong>Registro de Pesaje</strong></div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+                        <div class="border border-slate-400 p-4 bg-white space-y-3">
+                            <div class="font-bold border-b border-slate-300 pb-1">1. DATOS DEL TRABAJADOR Y PRODUCTO</div>
+                            <div>ID / Nombre Jornalero: <input type="text" value="1042 - Pedro Pérez" class="wireframe-input w-full mt-1" readonly></div>
+                            <div class="grid grid-cols-2 gap-2">
+                                <div>Tipo Chile: <input type="text" value="[v] Verde" class="wireframe-input w-full mt-1" readonly></div>
+                                <div>Calidad: <input type="text" value="[v] Primera" class="wireframe-input w-full mt-1" readonly></div>
+                            </div>
+                            <div class="font-bold border-b border-slate-300 pb-1 pt-2">2. LECTURA DE BÁSCULA</div>
+                            <div class="grid grid-cols-2 gap-2">
+                                <div>Peso Bruto (kg): <input type="text" value="125.50" class="wireframe-input w-full mt-1" readonly></div>
+                                <div>Num. Arpillas: <input type="text" value="5" class="wireframe-input w-full mt-1" readonly></div>
+                            </div>
+                        </div>
+                        <div class="border border-slate-400 p-4 bg-white flex flex-col justify-between">
+                            <div class="space-y-2">
+                                <div class="font-bold border-b border-slate-300 pb-1">3. CÁLCULOS AUTOMÁTICOS</div>
+                                <p>Tara Calculada: <strong>[ 2.50 kg ]</strong></p>
+                                <p>Peso Neto Real: <strong>[ 123.00 kg ]</strong></p>
+                                <p>Tarifa Vigente: <strong>[ $18.50 / kg ]</strong></p>
+                                <p class="text-lg pt-2">TOTAL A PAGAR: <strong>[ $2,275.50 ]</strong></p>
+                            </div>
+                            <div class="flex justify-end gap-2 pt-4">
+                                <button onclick="showWireframe(2)" class="wireframe-btn">Ir a Jornaleros &gt;</button>
+                                <button onclick="showSection('mockup')" class="wireframe-btn bg-slate-300">Ver Alta Fidelidad</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Wireframe 2 -->
+                <div id="wf-2" class="hidden wireframe-box p-6 rounded-lg space-y-4">
+                    <div class="flex justify-between items-center border-b-2 border-slate-400 pb-3">
+                        <span class="font-bold text-lg">[LOGO] AGROPESO - GESTIÓN DE JORNALEROS</span>
+                        <span>[Operador: JuanP] | [Cerrar Sesión X]</span>
+                    </div>
+                    <div class="flex flex-wrap justify-between gap-2">
+                        <input type="text" value="[ Buscar por nombre, ID o cuadrilla... ]" class="wireframe-input w-72" readonly>
+                        <button class="wireframe-btn">[ + Nuevo Jornalero ]</button>
+                    </div>
+                    <div class="overflow-x-auto bg-white border border-slate-400">
+                        <table class="w-full text-left text-sm">
+                            <thead class="border-b-2 border-slate-400 bg-slate-200">
+                                <tr>
+                                    <th class="p-2">ID_JORNALERO</th>
+                                    <th class="p-2">NOMBRE</th>
+                                    <th class="p-2">TELÉFONO</th>
+                                    <th class="p-2">CUADRILLA</th>
+                                    <th class="p-2">ESTATUS</th>
+                                    <th class="p-2">ACCIONES</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-300">
+                                <tr>
+                                    <td class="p-2">1042</td>
+                                    <td class="p-2">Pedro Pérez</td>
+                                    <td class="p-2">639-112-2334</td>
+                                    <td class="p-2">Cuadrilla A</td>
+                                    <td class="p-2">[Activo]</td>
+                                    <td class="p-2">[Editar] [Vales]</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-2">1043</td>
+                                    <td class="p-2">María Gómez</td>
+                                    <td class="p-2">639-556-6778</td>
+                                    <td class="p-2">Cuadrilla B</td>
+                                    <td class="p-2">[Activo]</td>
+                                    <td class="p-2">[Editar] [Vales]</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-2">1044</td>
+                                    <td class="p-2">Luis Ramírez</td>
+                                    <td class="p-2">639-998-8776</td>
+                                    <td class="p-2">Cuadrilla A</td>
+                                    <td class="p-2">[Bloqueado]</td>
+                                    <td class="p-2">[Editar] [Vales]</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="flex justify-between items-center text-xs">
+                        <span>Mostrando 1-3 de 45 registros | [&lt;&lt;] [1] [2] [&gt;&gt;]</span>
+                        <button onclick="showWireframe(3)" class="wireframe-btn">Ir a Préstamos/Vales &gt;</button>
+                    </div>
+                </div>
+
+                <!-- Wireframe 3 -->
+                <div id="wf-3" class="hidden wireframe-box p-6 rounded-lg space-y-4">
+                    <div class="flex justify-between items-center border-b-2 border-slate-400 pb-3">
+                        <span class="font-bold text-lg">[LOGO] AGROPESO - PRÉSTAMOS Y VALES</span>
+                        <span>[Operador: JuanP] | [Cerrar Sesión X]</span>
+                    </div>
+                    <div class="border border-slate-400 p-4 bg-white space-y-3 max-w-2xl">
+                        <div class="font-bold border-b border-slate-300 pb-1">REGISTRO DE ADELANTO ECONÓMICO (TABLA: PRESTAMO_VALE)</div>
+                        <div>Jornalero Solicitante: <input type="text" value="[v] 1042 - Pedro Pérez" class="wireframe-input w-full mt-1" readonly></div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>Tipo Movimiento: <input type="text" value="(o) Préstamo  ( ) Vale" class="wireframe-input w-full mt-1" readonly></div>
+                            <div>Fecha: <input type="text" value="12/11/2026" class="wireframe-input w-full mt-1" readonly></div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>Monto Solicitado ($): <input type="text" value="500.00" class="wireframe-input w-full mt-1" readonly></div>
+                            <div>Estatus Inicial: <input type="text" value="Pendiente" class="wireframe-input w-full mt-1" readonly></div>
+                        </div>
+                        <div class="flex justify-end gap-2 pt-3">
+                            <button onclick="showWireframe(1)" class="wireframe-btn">&lt; Volver a Pesaje</button>
+                            <button class="wireframe-btn bg-slate-300">[ Guardar Movimiento ]</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: NIELSEN HEURISTICS -->
+        <section id="sec-heuristicas" class="hidden space-y-6">
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 space-y-6">
+                <div>
+                    <span class="inline-block bg-blue-100 text-blue-800 text-xs font-bold px-2.5 py-1 rounded-full uppercase mb-1">Evaluación de Usabilidad</span>
+                    <h2 class="text-2xl font-bold text-slate-900">Documentación de Heurísticas de Jakob Nielsen Aplicadas</h2>
+                    <p class="text-sm text-slate-500">Justificación técnica de los principios aplicados en las pantallas de AGROPESO.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="border border-slate-200 rounded-xl p-5 bg-slate-50 space-y-2">
+                        <div class="flex items-center gap-2">
+                            <span class="bg-emerald-600 text-white font-bold w-7 h-7 rounded-full flex items-center justify-center text-sm">1</span>
+                            <h3 class="font-bold text-lg text-slate-900">Visibilidad del estado del sistema</h3>
+                        </div>
+                        <p class="text-sm text-slate-700 leading-relaxed">
+                            <strong>Aplicación específica:</strong> En la pantalla de <em>Registro de Pesaje</em>, el panel lateral derecho actualiza instantáneamente la tara, el peso neto y el subtotal monetario cada vez que el operador modifica el peso bruto o el número de arpillas. Además, el indicador superior muestra en todo momento el estado de sincronización offline (<code>estado_sincronizacion</code>), informando cuántos registros esperan conexión con el servidor central.
+                        </p>
+                    </div>
+
+                    <div class="border border-slate-200 rounded-xl p-5 bg-slate-50 space-y-2">
+                        <div class="flex items-center gap-2">
+                            <span class="bg-emerald-600 text-white font-bold w-7 h-7 rounded-full flex items-center justify-center text-sm">2</span>
+                            <h3 class="font-bold text-lg text-slate-900">Prevención de errores</h3>
+                        </div>
+                        <p class="text-sm text-slate-700 leading-relaxed">
+                            <strong>Aplicación específica:</strong> El sistema bloquea automáticamente el botón de <em>Registrar Pesaje</em> y despliega una alerta visual clara si el operador selecciona un jornalero con estatus <strong>"Bloqueado"</strong> o si el peso neto resultante de restar las arpillas es menor o igual a <code>0.00 kg</code>, evitando registros inválidos en la base de datos.
+                        </p>
+                    </div>
+
+                    <div class="border border-slate-200 rounded-xl p-5 bg-slate-50 space-y-2">
+                        <div class="flex items-center gap-2">
+                            <span class="bg-emerald-600 text-white font-bold w-7 h-7 rounded-full flex items-center justify-center text-sm">3</span>
+                            <h3 class="font-bold text-lg text-slate-900">Consistencia y estándares</h3>
+                        </div>
+                        <p class="text-sm text-slate-700 leading-relaxed">
+                            <strong>Aplicación específica:</strong> Todas las vistas mantienen una estructura uniforme: barra superior institucional, ruta de navegación, tarjetas agrupadas por flujo lógico y botones de acción ubicados consistentemente en la esquina inferior derecha con códigos de color estándar (verde para confirmar, gris para cancelar).
+                        </p>
+                    </div>
+
+                    <div class="border border-slate-200 rounded-xl p-5 bg-slate-50 space-y-2">
+                        <div class="flex items-center gap-2">
+                            <span class="bg-emerald-600 text-white font-bold w-7 h-7 rounded-full flex items-center justify-center text-sm">4</span>
+                            <h3 class="font-bold text-lg text-slate-900">Coincidencia entre el sistema y el mundo real</h3>
+                        </div>
+                        <p class="text-sm text-slate-700 leading-relaxed">
+                            <strong>Aplicación específica:</strong> Se utiliza terminología propia del campo agrícola regional (<em>arpillas, cuadrilla, jornalero, tara, chile verde/seco</em>) en lugar de tecnicismos informáticos, facilitando la adopción inmediata por parte de los operadores de báscula sin requerir capacitación compleja.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-slate-900 text-slate-400 text-xs py-4 text-center">
+        AGROPESO • Proyecto Integrador de Ingeniería de Software • Sebastian Perez Carnero, Axel Yael Pompa Gutierrez, Miguel Angel Orta Lira
+    </footer>
+
+    <script>
+        const API_URL = 'http://localhost:3000';
+        const precios = {
+            "Verde-Primera": 18.50,
+            "Verde-Segunda": 14.00,
+            "Seco-Primera": 42.00,
+            "Seco-Segunda": 31.50
+        };
+        let contadorId = 99;
+        let pendientesSync = 0;
+
+        function showSection(sec) {
+            ['mockup', 'wireframes', 'heuristicas'].forEach(id => {
+                document.getElementById('sec-' + id).classList.add('hidden');
+                const btn = document.getElementById('btn-' + id);
+                btn.classList.remove('bg-emerald-600', 'text-white');
+                btn.classList.add('bg-emerald-800', 'text-emerald-100');
+            });
+            document.getElementById('sec-' + sec).classList.remove('hidden');
+            const activeBtn = document.getElementById('btn-' + sec);
+            activeBtn.classList.remove('bg-emerald-800', 'text-emerald-100');
+            activeBtn.classList.add('bg-emerald-600', 'text-white');
+        }
+
+        function showWireframe(num) {
+            [1, 2, 3].forEach(n => {
+                document.getElementById('wf-' + n).classList.add('hidden');
+                const tab = document.getElementById('wf-tab-' + n);
+                tab.classList.remove('bg-slate-800', 'text-white');
+                tab.classList.add('bg-slate-200', 'text-slate-700');
+            });
+            document.getElementById('wf-' + num).classList.remove('hidden');
+            const activeTab = document.getElementById('wf-tab-' + num);
+            activeTab.classList.remove('bg-slate-200', 'text-slate-700');
+            activeTab.classList.add('bg-slate-800', 'text-white');
+        }
+
+        function actualizarJornalero() {
+            const val = document.getElementById('select-jornalero').value.split('|');
+            document.getElementById('info-cuadrilla').textContent = val[1];
+            const est = document.getElementById('info-estatus');
+            est.textContent = val[2];
+            if (val[2] === 'Bloqueado') {
+                est.className = 'text-xs font-bold px-2 py-0.5 rounded bg-red-100 text-red-700';
+            } else {
+                est.className = 'text-xs font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-700';
+            }
+            document.getElementById('info-ranking').textContent = val[3] + ' kg';
+            calcularPesaje();
+        }
+
+        function calcularPesaje() {
+            const bruto = parseFloat(document.getElementById('peso-bruto').value) || 0;
+            const arpillas = parseInt(document.getElementById('num-arpillas').value) || 0;
+            const tipo = document.getElementById('tipo-chile').value;
+            const calidad = document.getElementById('calidad-chile').value;
+            const estatus = document.getElementById('select-jornalero').value.split('|')[2];
+
+            const tara = arpillas * 0.50;
+            const neto = Math.max(0, bruto - tara);
+            const precio = precios[tipo + '-' + calidad] || 18.50;
+            const total = neto * precio;
+
+            document.getElementById('res-bruto').textContent = bruto.toFixed(2) + ' kg';
+            document.getElementById('res-arpillas').textContent = arpillas;
+            document.getElementById('res-tara').textContent = '- ' + tara.toFixed(2) + ' kg';
+            document.getElementById('res-neto').textContent = neto.toFixed(2) + ' kg';
+            document.getElementById('res-precio').textContent = '$ ' + precio.toFixed(2) + ' MXN';
+            document.getElementById('res-total').textContent = '$ ' + total.toLocaleString('es-MX', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+
+            const btn = document.getElementById('btn-registrar');
+            const alerta = document.getElementById('error-alerta');
+            if (neto <= 0 || estatus === 'Bloqueado') {
+                btn.disabled = true;
+                btn.classList.add('opacity-50', 'cursor-not-allowed');
+                alerta.classList.remove('hidden');
+            } else {
+                btn.disabled = false;
+                btn.classList.remove('opacity-50', 'cursor-not-allowed');
+                alerta.classList.add('hidden');
+            }
+        }
+
+        function renderFilaPesaje({ idTexto, nombre, tipoCalidad, bruto, tara, neto, total, estado }) {
+            const tbody = document.getElementById('tabla-pesajes');
+            const row = document.createElement('tr');
+            const badgeClase = estado === 'Sincronizado'
+                ? 'bg-emerald-100 text-emerald-800 text-xs px-2 py-0.5 rounded font-medium'
+                : 'bg-amber-100 text-amber-800 text-xs px-2 py-0.5 rounded font-medium';
+
+            row.innerHTML = `
+                <td class="p-3 font-mono text-xs">${idTexto}</td>
+                <td class="p-3 font-medium">${nombre}</td>
+                <td class="p-3">${tipoCalidad}</td>
+                <td class="p-3">${Number(bruto).toFixed(2)} kg</td>
+                <td class="p-3">${Number(tara).toFixed(2)} kg</td>
+                <td class="p-3 font-bold">${Number(neto).toFixed(2)} kg</td>
+                <td class="p-3 font-semibold text-emerald-700">$ ${Number(total).toLocaleString('es-MX', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
+                <td class="p-3"><span class="${badgeClase}">${estado}</span></td>
+            `;
+            tbody.prepend(row);
+        }
+
+        async function registrarPesaje() {
+            const rawJornalero = document.getElementById('select-jornalero').value.split('|')[0];
+            const matchId = rawJornalero.match(/\d+/);
+            const id_jornalero = matchId ? parseInt(matchId[0], 10) : 1;
+            const nombre = rawJornalero.replace(/^\d+\s*-\s*/, '').trim() || rawJornalero;
+
+            const tipo = document.getElementById('tipo-chile').value;
+            const calidad = document.getElementById('calidad-chile').value;
+            const bruto = parseFloat(document.getElementById('peso-bruto').value) || 0;
+            const arpillas = parseInt(document.getElementById('num-arpillas').value, 10) || 0;
+            const tara = Number((arpillas * 0.50).toFixed(2));
+            const neto = Number(Math.max(0, bruto - tara).toFixed(2));
+            const precio = precios[tipo + '-' + calidad] || 18.50;
+            const total = Number((neto * precio).toFixed(2));
+
+            const payload = {
+                id_jornalero,
+                id_operador: 1,
+                peso_bruto: bruto,
+                num_arpillas: arpillas,
+                tara_calculada: tara,
+                peso_neto: neto,
+                estado_sincronizacion: 'Sincronizado',
+                tipo_chile: tipo,
+                calidad: calidad,
+                precio_por_kilo: precio,
+                importe: total
+            };
+
+            try {
+                const resp = await fetch(`${API_URL}/api/pesajes`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const data = await resp.json();
+                if (!resp.ok || !data.ok) {
+                    throw new Error(data.error || 'No se pudo guardar en SQL Server');
+                }
+
+                const idInsertado = data.registro && data.registro.id_pesaje
+                    ? `#${String(data.registro.id_pesaje).padStart(3, '0')}`
+                    : `#0${contadorId++}`;
+
+                renderFilaPesaje({
+                    idTexto: idInsertado,
+                    nombre,
+                    tipoCalidad: `${tipo} - ${calidad}`,
+                    bruto,
+                    tara,
+                    neto,
+                    total,
+                    estado: data.registro?.estado_sincronizacion || 'Sincronizado'
+                });
+                actualizarBadgeSync();
+            } catch (err) {
+                alert('Error al guardar en la base de datos: ' + err.message);
+            }
+        }
+
+        async function cargarPesajesDesdeBD() {
+            try {
+                const resp = await fetch(`${API_URL}/api/pesajes`);
+                const data = await resp.json();
+                if (!resp.ok || !data.ok || !Array.isArray(data.pesajes)) return;
+
+                const tbody = document.getElementById('tabla-pesajes');
+                if (data.pesajes.length > 0) {
+                    tbody.innerHTML = '';
+                    [...data.pesajes].reverse().forEach(p => {
+                        renderFilaPesaje({
+                            idTexto: `#${String(p.id_pesaje).padStart(3, '0')}`,
+                            nombre: `Jornalero #${p.id_jornalero}`,
+                            tipoCalidad: `${p.tipo_chile} - ${p.calidad}`,
+                            bruto: p.peso_bruto,
+                            tara: p.tara_calculada,
+                            neto: p.peso_neto,
+                            total: p.importe,
+                            estado: p.estado_sincronizacion || 'Sincronizado'
+                        });
+                    });
+                }
+                actualizarBadgeSync();
+            } catch (_) {
+                actualizarBadgeSync();
+            }
+        }
+
+        function actualizarBadgeSync() {
+            const badge = document.getElementById('sync-badge');
+            if (!badge) return;
+            if (pendientesSync > 0) {
+                badge.className = 'flex items-center gap-1.5 bg-amber-100 text-amber-800 text-xs font-semibold px-3 py-1.5 rounded-full border border-amber-300';
+                badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span> Modo Offline: Pendiente de Sincronizar (${pendientesSync})`;
+            } else {
+                badge.className = 'flex items-center gap-1.5 bg-emerald-100 text-emerald-800 text-xs font-semibold px-3 py-1.5 rounded-full border border-emerald-300';
+                badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-500"></span> Base de Datos Sincronizada`;
+            }
+        }
+
+        async function sincronizarAhora() {
+            await cargarPesajesDesdeBD();
+            pendientesSync = 0;
+            actualizarBadgeSync();
+            document.querySelectorAll('#tabla-pesajes span').forEach(el => {
+                el.className = 'bg-emerald-100 text-emerald-800 text-xs px-2 py-0.5 rounded font-medium';
+                el.textContent = 'Sincronizado';
+            });
+        }
+
+        function limpiarFormulario() {
+            document.getElementById('peso-bruto').value = '0.00';
+            document.getElementById('num-arpillas').value = '0';
+            calcularPesaje();
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            calcularPesaje();
+            cargarPesajesDesdeBD();
+        });
+    </script>
+</body>
+</html>
