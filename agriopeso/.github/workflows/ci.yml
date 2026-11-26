@@ -21,5 +21,5 @@ jobs:
     - name: Instalar dependencias y validar
       working-directory: ./agropeso/agropeso
       run: |
-        npm install
+        npm ci
         node --check server.js
